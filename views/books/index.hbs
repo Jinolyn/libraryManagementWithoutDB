@@ -19,9 +19,15 @@
                 <td>${{this.price}}</td>
                 <td>
                     <form action="/books/delete/{{this._id}}" method="post">
-                        <a href="/books/addOrEdit/{{this._id}}" class="btn btn-sm btn-outline-light"><i class="bi bi-eye"></i></a>
-                        <a href="/books/view/{{this._id}}" class="btn btn-sm btn-outline-info"><i class="bi bi-eye"></i></a>
-                        <button type="submit" class="btn btn-sm btn-outline-danger">Del</button>
+                        <a href="/books/addOrEdit/{{this._id}}" class="btn btn-sm btn-outline-light" title="edit">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a href="/books/view/{{this._id}}" class="btn btn-sm btn-outline-info" title="view">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <button type="submit" class="btn btn-sm btn-outline-danger" title="delete">
+                            <i class="bi bi-trash3"></i>
+                        </button>
                     </form>
                 </td>
             </tr>
