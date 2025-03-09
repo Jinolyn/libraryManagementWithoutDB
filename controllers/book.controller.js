@@ -21,6 +21,12 @@ router.get('/addOrEdit/:id', (req, res)=>{
     .catch(err => console.log('error while retrieving the record:\n',err))
 })
 
+// read
+router.get('/view/:id', (req, res)=>{
+    Book.findById(req.params.id).lean()
+    .then(data => res.render('books/view', {book:data}))
+    .catch(err => console.log('error while retrieving the record:\n',err))
+})
 
 
 router.post('/addOrEdit', (req, res)=>{

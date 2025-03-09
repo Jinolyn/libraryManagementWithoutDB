@@ -19,8 +19,8 @@
                 <td>${{this.price}}</td>
                 <td>
                     <form action="/books/delete/{{this._id}}" method="post">
-                        <a href="/books/addOrEdit/{{this._id}}" class="btn btn-sm btn-link">Edit</a>
-                        <a href="" class="btn btn-sm btn-outline-info">View</a>
+                        <a href="/books/addOrEdit/{{this._id}}" class="btn btn-sm btn-outline-light"><i class="bi bi-eye"></i></a>
+                        <a href="/books/view/{{this._id}}" class="btn btn-sm btn-outline-info"><i class="bi bi-eye"></i></a>
                         <button type="submit" class="btn btn-sm btn-outline-danger">Del</button>
                     </form>
                 </td>
