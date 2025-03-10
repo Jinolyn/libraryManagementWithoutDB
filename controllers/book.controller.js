@@ -14,13 +14,7 @@ router.get('/addOrEdit', (req, res)=>{
 
 // Update data
 router.get('/addOrEdit/:id', (req, res)=>{
-    const {id, title, author, publishedYear, price} = req.body;
     
-    const index = books.findIndex(b=> b.id === id);
-    if(index !== -1){
-        books[index] = [id, title, author, publishedYear, price];
-    }
-    res.redirect('/');
 })
 
 // read
