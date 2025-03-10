@@ -3,7 +3,6 @@ const path = require('path');
 const {engine} = require('express-handlebars');
 
 // local import
-const connectDb = require('./db')
 const bookRoutes = require('./controllers/book.controller')
 
 
@@ -24,12 +23,8 @@ app.engine('.hbs', engine({
 })) 
 app.set('view engine', '.hbs')
 
-connectDb()
-.then(data =>{
-    console.log('db connection succeeded ');
-    
-    app.listen(3000, ()=>{
-        console.log('Server started at 3000');
-    }).on('error', err=> console.log('Server ignition failed:\n', err));    
-})
-.catch(err => console.log('error in connecting to db:\n', err));
+
+app.listen(3000, ()=>{
+    console.log('Server started at 3000');
+}).on('error', err=> console.log('Server ignition failed:\n', err));    
+

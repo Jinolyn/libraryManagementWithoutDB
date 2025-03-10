@@ -19,7 +19,8 @@ then navigate to the project directory: cd repo-name
 # Configuration
 In db.js file, config the MongoDB connection URL to your own.
 
-ex: 'mongodb+srv://user@admin:<db_password>@cluster0.zjw7m.mongodb.net/your_database_name?retryWrites=true&w=majority&appName=Cluster0'
+ex: mongodb+srv://utilisateur:motdepasse@cluster0.mongodb.net/nom_de_la_base?retryWrites=true&w=majority
+
 
 Usage
 
@@ -27,4 +28,3 @@ Usage
 2. Start the application
     `npm start or node server.js`
 3. Open your browser and navigate to http://localhost:3000/books
-

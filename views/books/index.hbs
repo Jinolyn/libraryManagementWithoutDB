@@ -18,11 +18,11 @@
                 <td>{{this.author}}</td>
                 <td>${{this.price}}</td>
                 <td>
-                    <form action="/books/delete/{{this._id}}" method="post">
-                        <a href="/books/addOrEdit/{{this._id}}" class="btn btn-sm btn-outline-light" title="edit">
+                    <form action="/books/delete/{{this.id}}" method="post">
+                        <a href="/books/addOrEdit/{{this.id}}" class="btn btn-sm btn-outline-light" title="edit">
                             <i class="bi bi-pencil"></i>
                         </a>
-                        <a href="/books/view/{{this._id}}" class="btn btn-sm btn-outline-info" title="view">
+                        <a href="/books/view/{{this.id}}" class="btn btn-sm btn-outline-info" title="view">
                             <i class="bi bi-eye"></i>
                         </a>
                         <button type="submit" class="btn btn-sm btn-outline-danger" title="delete">

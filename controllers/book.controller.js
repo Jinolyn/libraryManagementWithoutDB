@@ -1,59 +1,68 @@
 const express = require('express');
 const router = express.Router();
 
-const Book = require('../models/book.model')
+const books = require('../models/book.model')
+
 router.get('/', (req, res)=>{
-    Book.find().lean()
-    .then(data =>{
-        res.render("books/index", { books : data})
-    })
-    .catch(err => console.log('error during fetching operation:\n',err))
-})
+    res.render("books/index", { books})
+});
 
 router.get('/addOrEdit', (req, res)=>{
-    res.render('books/addOrEdit')
+    const book = books.find(b => b.id === req.params.id || {} )
+    res.render('books/addOrEdit', {book})
 })
 
 // Update data
 router.get('/addOrEdit/:id', (req, res)=>{
-    Book.findById(req.params.id).lean()
-    .then(data => res.render('books/addOrEdit', {book:data}))
-    .catch(err => console.log('error while retrieving the record:\n',err))
+    const {id, title, author, publishedYear, price} = req.body;
+    
+    const index = books.findIndex(b=> b.id === id);
+    if(index !== -1){
+        books[index] = [id, title, author, publishedYear, price];
+    }
+    res.redirect('/');
 })
 
 // read
 router.get('/view/:id', (req, res)=>{
-    Book.findById(req.params.id).lean()
-    .then(data => res.render('books/view', {book:data}))
-    .catch(err => console.log('error while retrieving the record:\n',err))
-})
+    const book = books.find(b => b.id === req.params.id);
+    if(book){
+        res.render('books/view', {book});
+    }else{
+        res.status(404).send('Book not found');
+    }
+});
 
 
 router.post('/addOrEdit', (req, res)=>{
-    const book = {
-        title: req.body.title,
-        author: req.body.author,
-        publishedYear: req.body.publishedYear,
-        price: req.body.price,
+    const {id, title, author, publishedYear, price} = req.body;
+    if(id){
+        // update data book 
+        const index = books.findIndex(b=> b.id === id);
+        if(index !== -1){
+            books[index] = [id, title, author, publishedYear, price];
+        }
+    }else{
+        // add new book
+        const newBook = {
+            id: Date.now().toString(),
+            title,
+            author,
+            publishedYear,
+            price
+        };
+        books.push(newBook);
     }
+    res.redirect('/books')
+});
 
-    const {_id} = req.body
-    if(_id == '')
-        new Book({...book}).save()
-        .then(data => res.redirect('/books'))
-        .catch(err => console.log('error during insertion:\n', err))
-    
-    else
-        Book.findByIdAndUpdate(_id, book)
-        .then(data => res.redirect('/books'))
-        .catch(err => console.log('error during update operation:\n', err))
-})
-
-
+// Delete 
 router.post('/delete/:id', (req, res)=>{
-    Book.findByIdAndDelete(req.params.id)
-    .then(data => res.redirect('/books'))
-    .catch(err => console.log('error during deletion:\n', err))
-})
+    const index =books.findIndex(b => b.id === req.params.id);
+    if(index !== -1){
+        books.splice(index, 1);
+    }
+    res.redirect('/books');
+});
 
 module.exports = router
