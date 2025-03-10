@@ -1,62 +1,59 @@
 const express = require('express');
 const router = express.Router();
 
-const books = require('../models/book.model')
+let books = [];
+let nextId = 1;
 
-router.get('/', (req, res)=>{
-    res.render("books/index", { books})
+// Route to show all books
+router.get('/', (req, res) => {
+    res.render('books/index', { books });
 });
 
-router.get('/addOrEdit', (req, res)=>{
-    const book = books.find(b => b.id === req.params.id || {} )
-    res.render('books/addOrEdit', {book})
-})
+// Route to display addOEdit form
+router.get('/addOrEdit/:id?', (req, res) => {
+    const book = books.find(b => b.id === parseInt(req.params.id)) || {};
+    res.render('books/addOrEdit', { book });
+});
 
-// Update data
-router.get('/addOrEdit/:id', (req, res)=>{
-    
-})
-
-// read
-router.get('/view/:id', (req, res)=>{
-    const book = books.find(b => b.id === req.params.id);
-    if(book){
-        res.render('books/view', {book});
-    }else{
+// Route to display book's details
+router.get('/view/:id', (req, res) => {
+    const book = books.find(b => b.id === parseInt(req.params.id));
+    if (book) {
+        res.render('books/view', { book });
+    } else {
         res.status(404).send('Book not found');
     }
 });
 
-
-router.post('/addOrEdit', (req, res)=>{
-    const {id, title, author, publishedYear, price} = req.body;
-    if(id){
-        // update data book 
-        const index = books.findIndex(b=> b.id === id);
-        if(index !== -1){
-            books[index] = [id, title, author, publishedYear, price];
+// Route to add or edit book
+router.post('/addOrEdit', (req, res) => {
+    const { id, title, author, publishedYear, price } = req.body;
+    if (id) {
+        // update data
+        const bookIndex = books.findIndex(b => b.id === parseInt(id));
+        if (bookIndex !== -1) {
+            books[bookIndex] = { id: parseInt(id), title, author, publishedYear: parseInt(publishedYear), price: parseFloat(price) };
+        } else {
+            res.status(404).send('Book not found');
+            return;
         }
-    }else{
-        // add new book
-        const newBook = {
-            id: Date.now().toString(),
-            title,
-            author,
-            publishedYear,
-            price
-        };
+    } else {
+        // Add book
+        const newBook = { id: nextId++, title, author, publishedYear: parseInt(publishedYear), price: parseFloat(price) };
         books.push(newBook);
-    }
-    res.redirect('/books')
-});
-
-// Delete 
-router.post('/delete/:id', (req, res)=>{
-    const index =books.findIndex(b => b.id === req.params.id);
-    if(index !== -1){
-        books.splice(index, 1);
     }
     res.redirect('/books');
 });
 
-module.exports = router
+// Route to delete book
+router.post('/delete/:id', (req, res) => {
+    const bookIndex = books.findIndex(b => b.id === parseInt(req.params.id));
+    if (bookIndex !== -1) {
+        books.splice(bookIndex, 1);
+        res.redirect('/books');
+    } else {
+        res.status(404).send('Book not found');
+    }
+});
+
+module.exports = router;
