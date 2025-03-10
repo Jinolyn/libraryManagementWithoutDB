@@ -16,15 +16,9 @@ then navigate to the project directory: cd repo-name
 2. Install the necessary dependencies:
     npm install
 
-# Configuration
-In db.js file, config the MongoDB connection URL to your own.
-
-ex: mongodb+srv://utilisateur:motdepasse@cluster0.mongodb.net/nom_de_la_base?retryWrites=true&w=majority
-
 
 Usage
 
-1. Ensure the MongoDB service is running on your machine
-2. Start the application
+1. Start the application
     `npm start or node server.js`
-3. Open your browser and navigate to http://localhost:3000/books
+2. Open your browser and navigate to http://localhost:3000/books
